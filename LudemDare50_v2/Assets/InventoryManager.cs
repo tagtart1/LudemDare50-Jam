@@ -6,6 +6,8 @@ public class InventoryManager : MonoBehaviour
 {
     public GameObject slotPrefab;
     public List<InventorySlot> inventorySlots = new List<InventorySlot>(8);
+    public float equippedItems;
+    
 
     private void OnEnable()
     {
@@ -49,4 +51,6 @@ public class InventoryManager : MonoBehaviour
 
         inventorySlots.Add(newSlotComponent);
     }
+
+   
 }

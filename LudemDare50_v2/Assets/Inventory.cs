@@ -12,6 +12,7 @@ public class Inventory : MonoBehaviour
 
     private void OnEnable()
     {
+       
         ResourcePickup.OnResourceCollected += Add;
     }
 

@@ -8,7 +8,7 @@ public class InventoryItem
 {
     public ItemData itemData;
     public int stackSize;
-
+   
     public InventoryItem(ItemData item)
     {
         itemData = item;
