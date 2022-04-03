@@ -7,8 +7,11 @@ public class Inventory : MonoBehaviour
 {
     public static event Action<List<InventoryItem>> OnInventoryChange;
 
+    public List<InventorySlot> inventorySlots = new List<InventorySlot>(8);
     public List<InventoryItem> inventory = new List<InventoryItem>();
     private Dictionary<ItemData, InventoryItem> itemDictionary = new Dictionary<ItemData, InventoryItem>();
+
+
 
     private void OnEnable()
     {
@@ -25,6 +28,7 @@ public class Inventory : MonoBehaviour
     {
         if (itemDictionary.TryGetValue(itemData, out InventoryItem item))
         {
+            
             item.AddToStack();
             OnInventoryChange?.Invoke(inventory);
         }

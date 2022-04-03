@@ -9,6 +9,8 @@ public class InventorySlot : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI labelText;
     public TextMeshProUGUI stackSizeText;
+    public InventoryItem inventoryItem;
+   
 
     public void ClearSlot()
     {
@@ -27,7 +29,7 @@ public class InventorySlot : MonoBehaviour
         }
 
         FillSlot();
-
+        inventoryItem = item;
         icon.sprite = item.itemData.icon;
         labelText.text = item.itemData.displayName;
         stackSizeText.text = item.stackSize.ToString();
