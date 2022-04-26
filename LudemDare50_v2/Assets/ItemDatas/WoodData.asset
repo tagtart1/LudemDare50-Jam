@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c805ecf6c9d7e44a9aef017855581e, type: 3}
   m_Name: WoodData
   m_EditorClassIdentifier: 
+  itemType: 0
   displayName: Wood
   icon: {fileID: 21300000, guid: 869086994cccef94b9d6dab26e017cee, type: 3}
+  pickupPrefab: {fileID: 7032796506487585362, guid: 108ca2dcb90e3cf47ab18a7271b94080,
+    type: 3}

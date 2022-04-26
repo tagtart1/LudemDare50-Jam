@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9c805ecf6c9d7e44a9aef017855581e, type: 3}
+  m_Name: StoneData
+  m_EditorClassIdentifier: 
+  itemType: 0
+  displayName: Stone
+  icon: {fileID: 21300000, guid: 916f518aa9aa6184e8306b57107c75b3, type: 3}
+  pickupPrefab: {fileID: 7316269288378787637, guid: 39950cd9ebcf2494e933554847f66bcd,
+    type: 3}

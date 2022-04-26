@@ -53,6 +53,33 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""98013b50-446a-445f-90b8-1ade7507b996"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e98e405-cc85-46ff-af20-c3553a24f7da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""1fe16d81-27c2-4b57-9605-6a1b5c7eb59a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +159,39 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83486d1f-c18b-4f87-84e2-6182ceea888c"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""55a02fed-3c78-4f06-b5db-2335a373246e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e598068d-ae4a-41c5-a0d2-7e91ea9d3b51"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +203,9 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+        m_Player_DropItem = m_Player.FindAction("DropItem", throwIfNotFound: true);
+        m_Player_MouseClick = m_Player.FindAction("MouseClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +268,9 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Inventory;
+    private readonly InputAction m_Player_DropItem;
+    private readonly InputAction m_Player_MouseClick;
     public struct PlayerActions
     {
         private @CharacterInputs m_Wrapper;
@@ -212,6 +278,9 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+        public InputAction @DropItem => m_Wrapper.m_Player_DropItem;
+        public InputAction @MouseClick => m_Wrapper.m_Player_MouseClick;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +299,15 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Inventory.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory;
+                @Inventory.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory;
+                @Inventory.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory;
+                @DropItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropItem;
+                @DropItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropItem;
+                @DropItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDropItem;
+                @MouseClick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseClick;
+                @MouseClick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseClick;
+                @MouseClick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseClick;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +321,15 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Inventory.started += instance.OnInventory;
+                @Inventory.performed += instance.OnInventory;
+                @Inventory.canceled += instance.OnInventory;
+                @DropItem.started += instance.OnDropItem;
+                @DropItem.performed += instance.OnDropItem;
+                @DropItem.canceled += instance.OnDropItem;
+                @MouseClick.started += instance.OnMouseClick;
+                @MouseClick.performed += instance.OnMouseClick;
+                @MouseClick.canceled += instance.OnMouseClick;
             }
         }
     }
@@ -252,5 +339,8 @@ public partial class @CharacterInputs : IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
+        void OnDropItem(InputAction.CallbackContext context);
+        void OnMouseClick(InputAction.CallbackContext context);
     }
 }

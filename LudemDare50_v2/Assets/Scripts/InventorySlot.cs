@@ -9,9 +9,34 @@ public class InventorySlot : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI labelText;
     public TextMeshProUGUI stackSizeText;
-    public InventoryItem inventoryItem;
-   
+    public InventoryItem inventoryItem = null;
+    public bool activated = false;
+    [SerializeField] public bool isLeftHotbarSlot;
+    [SerializeField] public bool isRightHotbarSlot;
+   // [SerializeField] public bool isHotbarSlot;
+    [SerializeField] public Inventory inventory;
 
+    private void Awake()
+    {
+        
+        ClearSlot();
+        activated = false;
+    }
+
+    private void Start()
+    {
+      
+    }
+
+    private void OnEnable()
+    {
+       
+    }
+
+    private void OnDisable()
+    {
+
+    }
     public void ClearSlot()
     {
         icon.enabled = false;
@@ -22,11 +47,7 @@ public class InventorySlot : MonoBehaviour
 
     public void DrawSlot(InventoryItem item)
     {
-        if (item == null)
-        {
-            ClearSlot();
-            return;
-        }
+
 
         FillSlot();
         inventoryItem = item;

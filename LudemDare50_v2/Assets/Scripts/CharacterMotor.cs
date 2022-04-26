@@ -9,7 +9,7 @@ using UnityEditor;
 /// Controls character locomotion using a rigidbody
 /// 
 /// </summary>
-[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
+
 public class CharacterMotor : MonoBehaviour
 {
     // Avoids grounded check passing true on character jump.

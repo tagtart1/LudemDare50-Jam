@@ -6,23 +6,23 @@ using UnityEngine;
 [Serializable]
 public class InventoryItem
 {
-  
+    
     public ItemData itemData;
     public int stackSize;
    
-    public InventoryItem(ItemData item)
+    public InventoryItem(ItemData item, int amount)
     {
         itemData = item;
-        AddToStack();
+        AddToStack(amount);
     }
 
-    public void AddToStack() 
+    public void AddToStack(int amount) 
     {
-        stackSize++;
+        stackSize += amount;
     }
 
-    public void RemoveFromStack()
+    public void RemoveFromStack(int amount)
     {
-        stackSize--;
+        stackSize -= amount;
     }
 }

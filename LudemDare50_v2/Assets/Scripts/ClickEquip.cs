@@ -1,57 +1,157 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ClickEquip : MonoBehaviour, IPointerDownHandler 
+public class ClickEquip : MonoBehaviour, IPointerDownHandler , IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] InventorySlot hotBar1;
-    [SerializeField] InventorySlot hotBar2;
-   
-  
-  
-   
-    private bool isEquipped = false;
+    [SerializeField] Player player;
 
+    public static event HandleDropItem OnDropItem;
+    public delegate void HandleDropItem(ItemData itemData);
+
+    Inventory inventory;
+    InventorySlot _inventorySlot;
+    bool isHoveringOnItem = false;
+   
+  
+
+    private void Awake()
+    {
+        _inventorySlot = GetComponent<InventorySlot>();
+        inventory = _inventorySlot.inventory;
+    }
 
     private void OnEnable()
     {
         
     }
 
-    private void Start()
+    private void Update()
     {
-      
+        if (isHoveringOnItem && player.pressedDropItem && _inventorySlot.activated) // drop item from inventory
+        {
+            if (_inventorySlot.isLeftHotbarSlot || _inventorySlot.isRightHotbarSlot) player.UnequipItemInHand(_inventorySlot.inventoryItem);
+          
+
+            isHoveringOnItem = false;
+            player.CreateDroppedPickup(_inventorySlot.inventoryItem);
+            inventory.DropItem(_inventorySlot);
+        }
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
-   
+        if (!inventory.IsMenuActive()) return;
+
         if(eventData.button == PointerEventData.InputButton.Right)
         {
-
-            ItemToHotBar(hotBar2);
+            if (_inventorySlot.isRightHotbarSlot && _inventorySlot.activated) //uniquipping
+            {
+                UnequipItem(_inventorySlot.inventoryItem);
+            }
+            else if (_inventorySlot.activated && !_inventorySlot.isLeftHotbarSlot)
+            {
+                foreach (InventorySlot inventorySlot in inventory.inventorySlots)
+                {
+                    if (inventorySlot.isRightHotbarSlot )
+                    {
+                        if (!inventorySlot.activated)  //equip into empty slot
+                        {
+                            PutItemToSlot(inventorySlot);
+                            
+                            player.EquipItemToHand(inventorySlot.inventoryItem, false);
+                            break;
+                        }
+                        else  //switches items
+                        {
+                            SwitchItems(inventorySlot);
+                            player.EquipItemToHand(inventorySlot.inventoryItem, false);
+                            break;
+                        }
+                    }
+                }
+            }
         }
         else
         {
-            
-            ItemToHotBar(hotBar1);
+            if (_inventorySlot.isLeftHotbarSlot && _inventorySlot.activated ) //uniquipping
+            {
+                UnequipItem(_inventorySlot.inventoryItem);
+            }
+            else if (_inventorySlot.activated && !_inventorySlot.isRightHotbarSlot)
+            {
+                foreach (InventorySlot inventorySlot in inventory.inventorySlots)
+                {
+                    if (inventorySlot.isLeftHotbarSlot)
+                    {
+                        if (!inventorySlot.activated)  //equip into empty slot
+                        {
+                            PutItemToSlot(inventorySlot);
+                            player.EquipItemToHand(inventorySlot.inventoryItem, true);
+                            break;
+                        }
+                        else  //switches items
+                        {
+                            SwitchItems(inventorySlot);
+                            player.EquipItemToHand(inventorySlot.inventoryItem, true);
+                            break;
+                        }
+                    }
+                }
+            }
         }
         
     }
 
-    private void ItemToHotBar(InventorySlot hotbarSlot)
+    private void UnequipItem(InventoryItem itemToUnequip)
     {
-        if (!isEquipped)
+        foreach (InventorySlot inventorySlot in inventory.inventorySlots)
         {
-            hotbarSlot.inventoryItem = GetComponent<InventorySlot>().inventoryItem;
-            
-             
-        }
-        else if (isEquipped)
-        {
-           
+            if (!inventorySlot.activated && !inventorySlot.isLeftHotbarSlot && !inventorySlot.isRightHotbarSlot)
+            {
+               
+                player.UnequipItemInHand(itemToUnequip);
+                PutItemToSlot(inventorySlot);
+                break;
+            }
         }
     }
 
+
+    private void SwitchItems(InventorySlot inventorySlot)
+    {
+        InventoryItem tempItem = _inventorySlot.inventoryItem;
+        _inventorySlot.inventoryItem = inventorySlot.inventoryItem;
+        _inventorySlot.DrawSlot(inventorySlot.inventoryItem);
+        inventorySlot.inventoryItem = tempItem;
+        inventorySlot.DrawSlot(tempItem);
+    }
+
+    private void PutItemToSlot(InventorySlot inventorySlot)
+    {
+        inventorySlot.activated = true;
+        inventorySlot.inventoryItem = _inventorySlot.inventoryItem;
+        inventorySlot.DrawSlot(inventorySlot.inventoryItem);
+        _inventorySlot.inventoryItem = null;
+        _inventorySlot.activated = false;
+        _inventorySlot.ClearSlot();
+    }
+
  
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+       
+        isHoveringOnItem = true;
+    
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isHoveringOnItem = false;
+      
+    }
+
+   
 }

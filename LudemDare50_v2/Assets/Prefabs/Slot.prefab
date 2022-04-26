@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 4089934615642878902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1594072, y: 0.1594072, z: 0.1594072}
+  m_LocalScale: {x: 0.112606764, y: 0.112606764, z: 0.112606764}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4089934616089912335}
@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 48.2, y: 44.5}
+  m_AnchoredPosition: {x: 36.3, y: 39}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4089934615642878907
@@ -66,7 +66,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: '10
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -100,8 +102,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -148,7 +150,7 @@ GameObject:
   - component: {fileID: 4089934616089912337}
   - component: {fileID: 4089934616089912334}
   - component: {fileID: 1529063007755603599}
-  - component: {fileID: 2576283014154916439}
+  - component: {fileID: 519254849882482493}
   m_Layer: 5
   m_Name: Slot
   m_TagString: Untagged
@@ -255,7 +257,11 @@ MonoBehaviour:
   inventoryItem:
     itemData: {fileID: 0}
     stackSize: 0
---- !u!114 &2576283014154916439
+  activated: 0
+  isLeftHotbarSlot: 0
+  isRightHotbarSlot: 0
+  inventory: {fileID: 0}
+--- !u!114 &519254849882482493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,8 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48691ca99b49c4f4e960e7ec84d1dd4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hotBar1: {fileID: 0}
-  hotBar2: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &4089934617168173435
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +340,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 916f518aa9aa6184e8306b57107c75b3, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
