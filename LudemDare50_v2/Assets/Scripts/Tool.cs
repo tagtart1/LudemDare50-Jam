@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class Tool : MonoBehaviour
 {
-  
+    [SerializeField] private float damage;
+   
     public Killable canAttack;
-    [SerializeField] float damage;
+    
     [SerializeField] private float useCooldown;
     private bool canUseTool;
     private float cooldownTimer;
     private Health healthToAttack;
     private Player player;
     public bool isInRangeOfObject;
+    public float maxDurability;
    
     private void Start()
     {
         player = GetComponentInParent<Player>();
-       
+        
     }
 
     private void Update()
@@ -38,8 +40,19 @@ public class Tool : MonoBehaviour
         cooldownTimer = useCooldown;
         canUseTool = false;
         if (healthToAttack != null)
-        healthToAttack.TakeDamage(damage, this);
+        {
+            HandleDurability();
+            healthToAttack.TakeDamage(damage, this);
+            
+        }
        
+        
+    }
+
+    public void SetToolStats(float damage)
+    {
+       
+        this.damage = damage;
     }
 
     public void InRange(Health health)
@@ -50,5 +63,12 @@ public class Tool : MonoBehaviour
     public void OutOfRange()
     {
         healthToAttack = null;
+    }
+
+    private void HandleDurability()
+    {
+        //needs to remove from inventory and clears slot
+        player.inventory.HandleToolItem(GetComponent<ResourcePickup>().id);
+        
     }
 }

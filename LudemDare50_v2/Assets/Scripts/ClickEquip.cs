@@ -13,8 +13,8 @@ public class ClickEquip : MonoBehaviour, IPointerDownHandler , IPointerEnterHand
 
     Inventory inventory;
     InventorySlot _inventorySlot;
-    bool isHoveringOnItem = false;
-   
+    private bool isHoveringOnItem = false;
+    private bool tooltipActive = false;
   
 
     private void Awake()
@@ -25,20 +25,38 @@ public class ClickEquip : MonoBehaviour, IPointerDownHandler , IPointerEnterHand
 
     private void OnEnable()
     {
-        
+        isHoveringOnItem = false;
     }
 
     private void Update()
     {
+       
         if (isHoveringOnItem && player.pressedDropItem && _inventorySlot.activated) // drop item from inventory
         {
-            if (_inventorySlot.isLeftHotbarSlot || _inventorySlot.isRightHotbarSlot) player.UnequipItemInHand(_inventorySlot.inventoryItem);
+            if (_inventorySlot.isLeftHotbarSlot || _inventorySlot.isRightHotbarSlot)
+                player.UnequipItemInHand(_inventorySlot.inventoryItem);
+       
           
 
             isHoveringOnItem = false;
             player.CreateDroppedPickup(_inventorySlot.inventoryItem);
             inventory.DropItem(_inventorySlot);
         }
+
+        if (isHoveringOnItem && _inventorySlot.activated && !tooltipActive)
+        {
+           
+            tooltipActive = true;
+            TooltipDynamic.ShowToolTip_Static(_inventorySlot.inventoryItem.itemData.displayName);
+        }
+        else if ((!isHoveringOnItem && tooltipActive)   || ( tooltipActive && !_inventorySlot.activated))
+        {
+           
+            tooltipActive = false;
+            TooltipDynamic.HideTooltip_Static();
+        }
+
+
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -125,8 +143,11 @@ public class ClickEquip : MonoBehaviour, IPointerDownHandler , IPointerEnterHand
         InventoryItem tempItem = _inventorySlot.inventoryItem;
         _inventorySlot.inventoryItem = inventorySlot.inventoryItem;
         _inventorySlot.DrawSlot(inventorySlot.inventoryItem);
+        
         inventorySlot.inventoryItem = tempItem;
         inventorySlot.DrawSlot(tempItem);
+        TooltipDynamic.ShowToolTip_Static(_inventorySlot.inventoryItem.itemData.displayName);
+
     }
 
     private void PutItemToSlot(InventorySlot inventorySlot)
@@ -150,7 +171,7 @@ public class ClickEquip : MonoBehaviour, IPointerDownHandler , IPointerEnterHand
     public void OnPointerExit(PointerEventData eventData)
     {
         isHoveringOnItem = false;
-      
+       
     }
 
    

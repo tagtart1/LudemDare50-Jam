@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1290327878966160726}
   - component: {fileID: 1290327878966160721}
   - component: {fileID: -3490122543621185018}
-  - component: {fileID: 269400926}
   - component: {fileID: 2876889705014340343}
   m_Layer: 0
   m_Name: Chicken
@@ -110,26 +109,6 @@ MonoBehaviour:
   pickUpPrefab: {fileID: 7188845429427590760, guid: b9e3dc804911bd8459ffa553ff54591b,
     type: 3}
   yieldAmount: 1
---- !u!95 &269400926
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 749592700654568855}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e4896cf49f1b0194393d5a74b169c3ab, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!65 &2876889705014340343
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -22,14 +22,15 @@ public class Inventory : MonoBehaviour
     private void OnEnable()
     {
         ResourcePickup.OnResourceCollected += Add;
-       
+        ResourcePickup.OnToolCollected += Add;
 
     }
 
     private void OnDisable()
     {
         ResourcePickup.OnResourceCollected -= Add;
-      
+        ResourcePickup.OnToolCollected -= Add;
+
     }
 
     public void Add(ItemData itemData, int amount)
@@ -65,6 +66,23 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void Add(ItemData itemData, int amount, float damage, float durability, float id)
+    {
+         InventoryItem newItem = new InventoryItem(itemData, amount, damage, durability, id);
+
+         if (FindEmptySlot(newItem))
+         {
+             inventory.Add(newItem); // add to list
+             
+         }
+         else
+         {
+             player.CreateDroppedPickup(newItem);
+         }
+ 
+    }
+
+
     public void Remove(ItemData itemData, int amount) //called for crafting purposes
     {
         if (itemDictionary.TryGetValue(itemData, out InventoryItem item))
@@ -99,6 +117,43 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void HandleToolItem(float id)
+    {
+        
+        foreach(InventoryItem inventoryItem in inventory.ToArray())
+        {
+            if (inventoryItem.id == id)
+            {
+                inventoryItem.DecreaseDurability(1f);
+                foreach (InventorySlot inventorySlot in inventorySlots)
+                {
+
+                    if (inventorySlot.inventoryItem == inventoryItem)
+                    {
+                        if (inventoryItem.durability <= 0)
+                        {
+                            inventory.Remove(inventoryItem);
+                            player.UnequipItemInHand(inventoryItem);
+                            inventorySlot.inventoryItem = null;
+                            inventorySlot.activated = false;
+                            inventorySlot.ClearSlot();
+
+                            break;
+                        }
+                        else
+                        {
+                            inventorySlot.DrawSlot(inventoryItem);
+                        }
+                        
+                    }
+                }
+
+                           
+            }
+        }
+
     }
 
     public void DropItem(InventorySlot inventorySlot)
@@ -141,6 +196,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
+            TooltipDynamic.HideTooltip_Static();
             inventoryMenu.SetActive(false);
             isMenuActive = false;
         }
@@ -150,6 +206,7 @@ public class Inventory : MonoBehaviour
     {
         inventoryMenu.SetActive(value);
         isMenuActive = value; 
+        
     }
 
     private bool FindEmptySlot(InventoryItem newItem)

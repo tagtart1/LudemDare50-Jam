@@ -56,7 +56,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0.12
+  m_BaseOffset: 2.9
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &9155900135309794219
@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89def7328be49b249aca459aa0b03f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRange: 13.1
-  attackRange: 5.38
+  sightRange: 13
+  attackRange: 5.4
   attackDamage: 30
   whatIsPlayer:
     serializedVersion: 2
@@ -100,7 +100,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   player: {fileID: 0}
-  animator: {fileID: 1054333411}
 --- !u!65 &8338790996279394789
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -112,8 +111,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8.08, y: 0.28, z: 4.17}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 8.63, y: 4.34, z: 0.3}
+  m_Center: {x: 0, y: -0.63, z: 0}
 --- !u!136 &5501328511528155104
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -139,7 +138,6 @@ GameObject:
   - component: {fileID: 2537687029634202969}
   - component: {fileID: 1624824511259697266}
   - component: {fileID: 6428260137619351107}
-  - component: {fileID: 1054333411}
   m_Layer: 0
   m_Name: Rat_Plane
   m_TagString: Untagged
@@ -154,14 +152,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8317216225387048246}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 2.26, y: -0.21, z: 0}
   m_LocalScale: {x: 1.4035944, y: 0.6233635, z: 0.6233635}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5700001657720478378}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &1624824511259697266
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -212,23 +210,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &1054333411
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8317216225387048246}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e4896cf49f1b0194393d5a74b169c3ab, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0

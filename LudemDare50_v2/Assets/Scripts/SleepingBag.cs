@@ -30,7 +30,11 @@ public class SleepingBag : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        canInteract = false;
+        if (other.TryGetComponent<Player>(out player))
+        {
+
+            canInteract = false;
+        }
     }
 
     private void Interact()
@@ -38,7 +42,7 @@ public class SleepingBag : MonoBehaviour
         if (!player.isSleeping)
         {
             player.canMove = false;
-            player.playerPlane.SetActive(false);
+           player.EnableChildrenObjects(false);
             player.isSleeping = true;
             sleepingbagAwake.SetActive(false);
             sleepingbagSleep.SetActive(true);
@@ -46,7 +50,7 @@ public class SleepingBag : MonoBehaviour
         else
         {
             player.canMove = true;
-            player.playerPlane.SetActive(true);
+            player.EnableChildrenObjects(true);
             player.isSleeping = false;
             sleepingbagAwake.SetActive(true);
             sleepingbagSleep.SetActive(false);

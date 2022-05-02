@@ -16,7 +16,7 @@ public class EnemyStateManager : MonoBehaviour
     private bool isFacingRight;
     private float xVelocity;
     private float lastXPosition;
-    public Animator animator;
+    
     private EnemyBaseState currentState;
     public EnemyPatrolState PatrolState = new EnemyPatrolState();
     public EnemyChaseState ChaseState = new EnemyChaseState();
@@ -40,7 +40,7 @@ public class EnemyStateManager : MonoBehaviour
         xVelocity = (transform.position.x - lastXPosition) / Time.deltaTime;
         lastXPosition = transform.position.x;
         HandleSpriteFlip();
-
+        
         currentState.UpdateState(this);
     }
 

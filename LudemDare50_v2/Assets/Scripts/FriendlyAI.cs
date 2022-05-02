@@ -28,7 +28,7 @@ public class FriendlyAI : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        animator.SetBool("Walking", true);
+       
     }
 
     private void Update()
@@ -49,7 +49,7 @@ public class FriendlyAI : MonoBehaviour
 
         if (walkPointSet)
         {
-            animator.SetBool("Walking", true);
+          
             agent.SetDestination(walkPoint);
         }
 
@@ -60,7 +60,7 @@ public class FriendlyAI : MonoBehaviour
             
             if (atPointTimer < maxTimeAtPoint)
             {
-                animator.SetBool("Walking", false);
+                
                 atPointTimer += Time.deltaTime;
             }
             else

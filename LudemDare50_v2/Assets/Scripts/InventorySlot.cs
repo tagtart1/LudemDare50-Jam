@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour
 {
     public Image icon;
-    public TextMeshProUGUI labelText;
+    public Slider durabilitySlider;
     public TextMeshProUGUI stackSizeText;
     public InventoryItem inventoryItem = null;
     public bool activated = false;
@@ -40,19 +40,27 @@ public class InventorySlot : MonoBehaviour
     public void ClearSlot()
     {
         icon.enabled = false;
-        labelText.enabled = false;
+        durabilitySlider.gameObject.SetActive(false);
         stackSizeText.enabled = false;
     }
 
 
     public void DrawSlot(InventoryItem item)
     {
-
+        if (item.durability != 0)
+        {
+            durabilitySlider.gameObject.SetActive(true);
+            durabilitySlider.value = item.durability / 20f;
+        }
+        else
+        {
+            durabilitySlider.gameObject.SetActive(false);
+        }
 
         FillSlot();
         inventoryItem = item;
         icon.sprite = item.itemData.icon;
-        labelText.text = item.itemData.displayName;
+        
         stackSizeText.text = item.stackSize.ToString();
 
 
@@ -61,7 +69,7 @@ public class InventorySlot : MonoBehaviour
     private void FillSlot()
     {
         icon.enabled = true;
-        labelText.enabled = true;
+        
         stackSizeText.enabled = true;
     }
 }

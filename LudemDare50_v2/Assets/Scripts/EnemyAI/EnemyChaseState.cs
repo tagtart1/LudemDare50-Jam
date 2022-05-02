@@ -9,7 +9,7 @@ public class EnemyChaseState : EnemyBaseState
     
     public override void EnterState(EnemyStateManager enemy)
     {
-       
+        
     }
 
     public override void UpdateState(EnemyStateManager enemy)
@@ -28,7 +28,7 @@ public class EnemyChaseState : EnemyBaseState
         }
         else
         {
-            enemy.animator.SetFloat("Speed", 1f);
+            
             enemy.agent.SetDestination(enemy.player.transform.position);
         }
 

@@ -24,16 +24,17 @@ public class Player : MonoBehaviour
     public bool isSleeping = false;
     public bool canMove = true;
     private CharacterInputs characterInputs;
-    [SerializeField] Animator animator;
+    private Transform[] childrenObjects;
     private bool isFacingRight;
     private bool isFlipping;
     private GameObject oldEquippedHand1Item;
     private GameObject oldEquippedHand2Item;
+    private Vector2 mousePosition;
 
     private void Awake()
     {
         cm = GetComponent<CharacterMotor>();
-      
+        childrenObjects = GetComponentsInChildren<Transform>();
         statBar = GetComponent<StatBarHandler>();
     }
 
@@ -67,6 +68,7 @@ public class Player : MonoBehaviour
         if (characterInputs.Player.MouseClick.triggered) pressedLeftClick = true;
         else pressedLeftClick = false;
 
+        mousePosition = characterInputs.Player.Mouse.ReadValue<Vector2>();
        
         if (isSleeping)
         {
@@ -78,14 +80,7 @@ public class Player : MonoBehaviour
         }
         else pressedDropItem = false;
 
-        if (moveDirection != Vector3.zero)
-        {
-            animator.SetFloat("Speed", 1);
-        }
-        else
-        {
-            animator.SetFloat("Speed", 0f);
-        }
+       
 
 
 
@@ -150,8 +145,14 @@ public class Player : MonoBehaviour
         if (inHand.GetComponent<Tool>() != null)
         {
             inHand.GetComponent<Tool>().enabled = true;
+            inHand.GetComponent<Tool>().SetToolStats(inventoryItem.damage);
+            inHand.GetComponent<ResourcePickup>().id = inventoryItem.id;
         }
         else if (inHand.GetComponent<Food>() != null)
+        {
+            inHand.GetComponent<Food>().enabled = true;
+        }
+        else if (inHand.GetComponent<TemperatureControl>() != null)
         {
             inHand.GetComponent<Food>().enabled = true;
         }
@@ -183,15 +184,39 @@ public class Player : MonoBehaviour
             Destroy(oldEquippedHand2Item);
     }
 
-    public void CreateDroppedPickup(InventoryItem inventoryItem)
+
+
+public void CreateDroppedPickup(InventoryItem inventoryItem)
     {
         Vector3 pickupPosition = base.transform.position;
         pickupPosition.x += (!isFacingRight ? 2f : -2f);
-        GameObject pickup = Instantiate(inventoryItem.itemData.pickupPrefab, pickupPosition, inventoryItem.itemData.pickupPrefab.transform.rotation);
-        
+        GameObject pickup = Instantiate(inventoryItem.itemData.pickupPrefab, pickupPosition, inventoryItem.itemData.pickupPrefab.transform.rotation);       
         pickup.GetComponent<ResourcePickup>().itemCount = inventoryItem.stackSize;
+
+        pickup.GetComponent<ResourcePickup>().damage = inventoryItem.damage;
+        pickup.GetComponent<ResourcePickup>().durability = inventoryItem.durability;
+        pickup.GetComponent<ResourcePickup>().id = inventoryItem.id;
+
         pickup.GetComponent<Rigidbody>().AddForce(7f * (!isFacingRight ? base.transform.right : -base.transform.right), ForceMode.Impulse);
         Destroy(pickup, 20f);
+    }
+
+    public void EnableChildrenObjects(bool active)
+    {
+        
+        foreach(Transform childTransform in childrenObjects)
+        {
+            if (childTransform != this.transform)
+            {
+                childTransform.gameObject.SetActive(active);
+            }
+            
+        }
+    }
+
+    public Vector2 GetMousePosition()
+    {
+        return mousePosition;
     }
     
 }

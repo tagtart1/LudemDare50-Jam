@@ -38,6 +38,7 @@ public class CraftingBench : MonoBehaviour
         canInteract = false;
         isInteracting = false;
         craftingMenu.SetActive(false);
+        if (craftingMenu.activeInHierarchy) 
         inventory.ToggleInventoryMenu(false);
     }
 

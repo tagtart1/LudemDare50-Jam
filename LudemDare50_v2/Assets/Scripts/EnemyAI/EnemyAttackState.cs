@@ -10,7 +10,7 @@ public class EnemyAttackState : EnemyBaseState
     private EnemyStateManager enemy;
     public override void EnterState(EnemyStateManager enemy)
     {
-        enemy.animator.SetFloat("Speed", 0f);
+        
         attackTimer = 0;
         this.enemy = enemy;
     }
@@ -44,7 +44,7 @@ public class EnemyAttackState : EnemyBaseState
 
     private void LaunchAttack()
     {
-        enemy.animator.SetTrigger("Attack");
+       
         enemy.player.GetComponent<Health>().TakeDamage(enemy.attackDamage);
     }
 

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 1
   displayName: Axe
-  icon: {fileID: 21300000, guid: 934dd68e343bb614eb5ee2120222f6f3, type: 3}
+  icon: {fileID: 21300000, guid: b6e3a64f6c3f5f449ab9ba9d6a25667d, type: 3}
   pickupPrefab: {fileID: 9045600306658309490, guid: 66cf208682b910b49b7dc939c762922d,
     type: 3}

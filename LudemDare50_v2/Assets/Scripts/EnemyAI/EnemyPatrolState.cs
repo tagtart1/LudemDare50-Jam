@@ -8,12 +8,13 @@ public class EnemyPatrolState : EnemyBaseState
     private bool walkPointSet = false;
     private float atPointTimer;
     private Vector3 walkPoint;
-    private float walkPointRange = 3f;
-    private float maxTimeAtPoint = 7f;
+    private float walkPointRange = 4f;
+    private float maxTimeAtPoint = 2f;
     EnemyStateManager enemy;
 
     public override void EnterState(EnemyStateManager enemy)
     {
+       
         this.enemy = enemy;
     }
 
@@ -37,7 +38,7 @@ public class EnemyPatrolState : EnemyBaseState
 
         if (walkPointSet)
         {
-            enemy.animator.SetFloat("Speed", 1f);
+           
             enemy.agent.SetDestination(walkPoint);
         }
 
@@ -47,8 +48,6 @@ public class EnemyPatrolState : EnemyBaseState
         {
             if (atPointTimer < maxTimeAtPoint)
             {
-                enemy.animator.SetFloat("Speed", 0);
-                
                 atPointTimer += Time.deltaTime;
             }
             else
@@ -61,12 +60,13 @@ public class EnemyPatrolState : EnemyBaseState
 
     private void SearchWalkPoint()
     {
+        
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector3(enemy.transform.position.x + randomX, enemy.transform.position.y, enemy.transform.position.z + randomZ);
 
-        if (Physics.Raycast(walkPoint, -enemy.transform.up, 2f, enemy.whatIsGround))
+        if (Physics.Raycast(walkPoint, -enemy.transform.up, 3f, enemy.whatIsGround))
         {
             walkPointSet = true;
         }
