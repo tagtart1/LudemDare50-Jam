@@ -6,10 +6,12 @@ using UnityEngine;
 public class CraftingBench : MonoBehaviour
 {
 
-
+    [SerializeField] private GameObject craftError;
     [SerializeField] private GameObject craftingMenu;
     [SerializeField] private Inventory inventory;
-
+    [SerializeField] private AudioClip cannotCraftSFX;
+    [SerializeField] private AudioClip craftSFX;
+ 
     InventoryItem ingredient1Match = null;
     InventoryItem ingredient2Match = null;
 
@@ -26,7 +28,7 @@ public class CraftingBench : MonoBehaviour
     {
         if (other.GetComponent<Player>())
         {
-            Debug.Log("triggered");
+            
             canInteract = true;
         }
     }
@@ -44,7 +46,7 @@ public class CraftingBench : MonoBehaviour
 
     private void Update()
     {
-        if (canInteract && player.pressedInteract)
+        if (canInteract && player.PressedInteract)
         {
             Interact();
         }
@@ -60,25 +62,57 @@ public class CraftingBench : MonoBehaviour
         }
         else
         {
+            player.GetCharacterPlane().localEulerAngles = Vector3.zero;
             isInteracting = true;
             craftingMenu.SetActive(true);
             inventory.ToggleInventoryMenu(true);
         }
     }
 
-    public void CraftItem(CraftingRecipe craftingRecipe)
+    public void CraftItem(CraftingRecipe craftingRecipe) 
     {
-        if (CheckLeftHotbar(craftingRecipe) && CheckRightHotbar(craftingRecipe)) // checks to see if ingredient items are equipped
+        if (craftingRecipe.ingredient2.itemData == null) 
+        {
+            if (CheckLeftHotbar(craftingRecipe) || CheckRightHotbar(craftingRecipe)) // checks to see if ingredient items are equipped
+            {
+               if (ingredient1Match.itemData != null )
+                inventory.Remove(ingredient1Match.itemData, craftingRecipe.ingredient1.stackSize);
+               else
+                inventory.Remove(ingredient2Match.itemData, craftingRecipe.ingredient2.stackSize);
+
+                SoundManager.PlayEffectSound_Static(craftSFX);
+                 inventory.Add(craftingRecipe.itemToCreate.pickupPrefab.GetComponent<ResourcePickup>().resourceData, craftingRecipe.yield);
+                
+            }
+            else
+            {
+                StopAllCoroutines();
+                StartCoroutine(ErrorMessageUI());
+            }
+        }
+        else if (CheckLeftHotbar(craftingRecipe) && CheckRightHotbar(craftingRecipe)) // checks to see if ingredient items are equipped
         {
             inventory.Remove(ingredient1Match.itemData, craftingRecipe.ingredient1.stackSize);
             inventory.Remove(ingredient2Match.itemData, craftingRecipe.ingredient2.stackSize);
 
-            inventory.Add(craftingRecipe.itemToCreate, craftingRecipe.yield);
+            GameObject craftedItem = Instantiate(craftingRecipe.itemToCreate.pickupPrefab);
+            Destroy(craftedItem, .1f);
+            SoundManager.PlayEffectSound_Static(craftSFX);
+            inventory.Add(craftedItem.GetComponent<ResourcePickup>().resourceData, craftingRecipe.yield, craftingRecipe.damage, craftingRecipe.durability, craftedItem.GetComponent<ResourcePickup>().id);
         }
         else
         {
-            Debug.Log("equip items to craft"); 
+            StopAllCoroutines();
+            StartCoroutine(ErrorMessageUI());
         }
+    }
+
+    private IEnumerator ErrorMessageUI()
+    {
+        craftError.SetActive(true);
+        SoundManager.PlayEffectSound_Static(cannotCraftSFX);
+        yield return new WaitForSeconds(2f);
+        craftError.SetActive(false);
     }
 
     private bool CheckLeftHotbar(CraftingRecipe craftingRecipe)
@@ -123,6 +157,7 @@ public class CraftingBench : MonoBehaviour
                         return true;
                     }
                 }
+               
                 else if (inventorySlot.inventoryItem.itemData == craftingRecipe.ingredient2.itemData)
                 {
                     if (inventorySlot.inventoryItem.stackSize >= craftingRecipe.ingredient2.stackSize)
@@ -136,5 +171,10 @@ public class CraftingBench : MonoBehaviour
         }
         
         return false;
+    }
+
+    public void ToggleCraftingMenu(bool value)
+    {
+        craftingMenu.SetActive(value);
     }
 }

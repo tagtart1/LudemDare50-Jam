@@ -5,6 +5,7 @@ using UnityEngine;
 public class TemperatureControl : MonoBehaviour
 {
     [SerializeField] private float temperaturePerSecond;
+    [SerializeField] private float durabilityLoss;
     private StatBarHandler statBarHandler;
     private Player player;
 
@@ -20,6 +21,8 @@ public class TemperatureControl : MonoBehaviour
         if (!player.inventory.IsMenuActive())
         {
             statBarHandler.IncrementStatBar(temperaturePerSecond, Stat.temperature);
+            player.inventory.HandleToolItem(GetComponent<ResourcePickup>().id, durabilityLoss);
+
         }
     }
 }

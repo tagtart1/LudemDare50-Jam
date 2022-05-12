@@ -28,7 +28,7 @@ public class EnemyChaseState : EnemyBaseState
         }
         else
         {
-            
+            enemy.anim.SetFloat("Speed", 1);
             enemy.agent.SetDestination(enemy.player.transform.position);
         }
 

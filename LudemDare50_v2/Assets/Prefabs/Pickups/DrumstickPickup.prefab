@@ -134,6 +134,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemCount: 1
   resourceData: {fileID: 11400000, guid: c506100742663034cbde547ef008113f, type: 2}
+  isTool: 0
+  damage: 0
+  durability: 0
+  pickupSFX: {fileID: 8300000, guid: 0b48c659414b033468dcb01b16908903, type: 3}
+  id: 0
 --- !u!54 &7320548282689875238
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -188,4 +193,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2baf08b398a242c499af5226287a631d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerToRestore: 20
+  restoreAmount: 15
+  statToRestore: 1

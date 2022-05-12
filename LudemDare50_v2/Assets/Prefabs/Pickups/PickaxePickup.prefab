@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726124230246057930}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.763472}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.73}
+  m_LocalScale: {x: 0.32, y: 0.32, z: 0.32}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2038138410247825118}
@@ -111,9 +111,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038138410247825105}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 26.399652, y: 0, z: 15.066038}
-  m_LocalScale: {x: 0.3220586, y: 0.32205865, z: 0.32205865}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 26.399652, y: -5.83, z: 15.066038}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6059285394099217483}
@@ -135,8 +135,9 @@ MonoBehaviour:
   itemCount: 1
   resourceData: {fileID: 11400000, guid: 405500f596a2d3d4e92414c3ae8a8219, type: 2}
   isTool: 1
-  damage: 10
+  damage: 30
   durability: 10
+  pickupSFX: {fileID: 8300000, guid: 0b48c659414b033468dcb01b16908903, type: 3}
   id: 0
 --- !u!65 &2038138410247825106
 BoxCollider:
@@ -149,8 +150,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10.45, y: 0.87, z: 10.000002}
-  m_Center: {x: 0, y: 0, z: -2.75}
+  m_Size: {x: 2.84, y: 0.28, z: 3.18}
+  m_Center: {x: 0, y: 0, z: -0.81}
 --- !u!54 &2939546747751601314
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -178,8 +179,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 0, z: 1.95}
-  m_Center: {x: 0, y: 0, z: 1.27}
+  m_Size: {x: 1.67, y: 0, z: 0.3}
+  m_Center: {x: 0, y: 0, z: 0.66}
 --- !u!114 &8513696102008765419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,4 +197,3 @@ MonoBehaviour:
   canAttack: 0
   useCooldown: 0.75
   isInRangeOfObject: 0
-  maxDurability: 20

@@ -12,6 +12,7 @@ public class EnemyStateManager : MonoBehaviour
     public NavMeshAgent agent;
     public LayerMask whatIsGround;
     public Player player;
+    public Animator anim;
     private bool isFlipping;
     private bool isFacingRight;
     private float xVelocity;

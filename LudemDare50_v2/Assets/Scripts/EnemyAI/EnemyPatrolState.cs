@@ -38,16 +38,17 @@ public class EnemyPatrolState : EnemyBaseState
 
         if (walkPointSet)
         {
-           
+            enemy.anim.SetFloat("Speed", 1f, .5f, Time.deltaTime);
             enemy.agent.SetDestination(walkPoint);
         }
 
         float distanceFromPoint = (enemy.transform.position - walkPoint).magnitude;
 
-        if (distanceFromPoint < 1f)
+        if (distanceFromPoint < .5f)
         {
             if (atPointTimer < maxTimeAtPoint)
             {
+                enemy.anim.SetFloat("Speed", 0);
                 atPointTimer += Time.deltaTime;
             }
             else

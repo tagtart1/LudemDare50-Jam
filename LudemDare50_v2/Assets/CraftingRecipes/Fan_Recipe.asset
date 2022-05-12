@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b196489331c7f44eab588d805300656, type: 3}
+  m_Name: Fan_Recipe
+  m_EditorClassIdentifier: 
+  itemToCreate: {fileID: 11400000, guid: 280fdaf8dfc679c40b260514c0ae5eac, type: 2}
+  yield: 1
+  ingredient1:
+    itemData: {fileID: 11400000, guid: eab75b5c17bc0fc41b2456a1b95a12c2, type: 2}
+    stackSize: 10
+    damage: 0
+    durability: 0
+    id: 0
+  ingredient2:
+    itemData: {fileID: 11400000, guid: 65595ace1bbf0ec46bd3f28ddc7a371c, type: 2}
+    stackSize: 10
+    damage: 0
+    durability: 0
+    id: 0
+  durability: 20
+  damage: 0

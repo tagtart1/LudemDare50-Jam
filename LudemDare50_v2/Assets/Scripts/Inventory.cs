@@ -12,7 +12,8 @@ public class Inventory : MonoBehaviour
     private Dictionary<ItemData, InventoryItem> itemDictionary = new Dictionary<ItemData, InventoryItem>();
 
     [SerializeField] private GameObject inventoryMenu;
-
+    [SerializeField] private AudioClip breakSFX;
+ 
     private bool isMenuActive = false;
 
     private void Start()
@@ -64,7 +65,7 @@ public class Inventory : MonoBehaviour
             
 
         }
-    }
+    } //for simple resources 
 
     public void Add(ItemData itemData, int amount, float damage, float durability, float id)
     {
@@ -80,10 +81,10 @@ public class Inventory : MonoBehaviour
              player.CreateDroppedPickup(newItem);
          }
  
-    }
+    } //for tools and weapons
 
 
-    public void Remove(ItemData itemData, int amount) //called for crafting purposes
+    public void Remove(ItemData itemData, int amount) //called for crafting purposes and consumables
     {
         if (itemDictionary.TryGetValue(itemData, out InventoryItem item))
         {
@@ -119,14 +120,16 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void HandleToolItem(float id)
+    public void HandleToolItem(float id, float durabilityLoss) //handles durability variable inside inventory items
     {
         
         foreach(InventoryItem inventoryItem in inventory.ToArray())
         {
+            
             if (inventoryItem.id == id)
             {
-                inventoryItem.DecreaseDurability(1f);
+               
+                inventoryItem.DecreaseDurability(durabilityLoss);
                 foreach (InventorySlot inventorySlot in inventorySlots)
                 {
 
@@ -134,6 +137,7 @@ public class Inventory : MonoBehaviour
                     {
                         if (inventoryItem.durability <= 0)
                         {
+                            SoundManager.PlayEffectSound_Static(breakSFX);
                             inventory.Remove(inventoryItem);
                             player.UnequipItemInHand(inventoryItem);
                             inventorySlot.inventoryItem = null;
@@ -156,7 +160,7 @@ public class Inventory : MonoBehaviour
 
     }
 
-    public void DropItem(InventorySlot inventorySlot)
+    public void DropItem(InventorySlot inventorySlot) //removes the item from the inventory, does not create the pickup
     {
         if (inventorySlot.inventoryItem.itemData.itemType == ItemData.ItemType.tool) //avoids dictionary check
         {
@@ -209,7 +213,7 @@ public class Inventory : MonoBehaviour
         
     }
 
-    private bool FindEmptySlot(InventoryItem newItem)
+    private bool FindEmptySlot(InventoryItem newItem) //finds empty slot within inventory
     {
         foreach (InventorySlot inventorySlot in inventorySlots)
         {

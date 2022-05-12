@@ -31,7 +31,7 @@ public class ClickEquip : MonoBehaviour, IPointerDownHandler , IPointerEnterHand
     private void Update()
     {
        
-        if (isHoveringOnItem && player.pressedDropItem && _inventorySlot.activated) // drop item from inventory
+        if (isHoveringOnItem && player.PressedDropItem && _inventorySlot.activated) // drop item from inventory
         {
             if (_inventorySlot.isLeftHotbarSlot || _inventorySlot.isRightHotbarSlot)
                 player.UnequipItemInHand(_inventorySlot.inventoryItem);

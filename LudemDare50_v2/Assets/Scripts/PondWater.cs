@@ -12,11 +12,17 @@ public class PondWater : MonoBehaviour
     private bool canInteract;
 
 
+    private void Start()
+    {
+        player = FindObjectOfType<Player>();
+    }
+
     private void Update()
     {
         cooldownTimer += Time.deltaTime;
-        if (canInteract && player.pressedInteract && cooldownTimer > cooldown)
+        if (canInteract  && cooldownTimer > cooldown)
         {
+            if (player.PressedInteract)
             Interact();
         }
     }
@@ -24,7 +30,7 @@ public class PondWater : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Player>(out player))
+        if (other.GetComponent<Player>())
         {
             canInteract = true;
         }
@@ -33,7 +39,10 @@ public class PondWater : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        canInteract = false;
+        if (other.GetComponent<Player>())
+        {
+            canInteract = false;
+        }
     }
 
     private void Interact()

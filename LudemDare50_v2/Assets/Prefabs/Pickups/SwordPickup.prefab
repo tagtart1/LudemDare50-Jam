@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2157980194462932880}
   - component: {fileID: 2157980194462932881}
   m_Layer: 0
-  m_Name: PickaxePickup
+  m_Name: SwordPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2157980194462932892}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.93, z: 0}
-  m_LocalScale: {x: 0.08372229, y: 0.22218, z: 0.23133382}
+  m_LocalPosition: {x: 0, y: 1.31, z: 0}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8453097311463982249}
@@ -112,8 +112,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4384417609524353661}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9701737, y: 1.9701737, z: 1.9701737}
+  m_LocalPosition: {x: 0, y: -5.21, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2157980194462932883}
@@ -135,8 +135,9 @@ MonoBehaviour:
   itemCount: 1
   resourceData: {fileID: 11400000, guid: a752f09ee420ee94cbca0f21a3861127, type: 2}
   isTool: 1
-  damage: 3
-  durability: 3
+  damage: 20
+  durability: 20
+  pickupSFX: {fileID: 8300000, guid: 0b48c659414b033468dcb01b16908903, type: 3}
   id: 0
 --- !u!65 &8728521508767170313
 BoxCollider:
@@ -149,8 +150,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.78, y: 2.16, z: 0.14}
-  m_Center: {x: 0, y: 0.84, z: 0}
+  m_Size: {x: 1.57, y: 3.82, z: 0.14}
+  m_Center: {x: 0, y: 1.26, z: 0}
 --- !u!54 &3749202560019381770
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -180,11 +181,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  durability: 20
   canAttack: 2
   useCooldown: 0.75
   isInRangeOfObject: 0
-  maxDurability: 20
 --- !u!65 &3802366570272350183
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -196,5 +195,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.76, y: 0.45, z: 0.09}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.77, y: 0.51, z: 0.09}
+  m_Center: {x: 0, y: -0.36, z: 0}

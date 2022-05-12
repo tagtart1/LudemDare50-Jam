@@ -50,7 +50,7 @@ public class InventorySlot : MonoBehaviour
         if (item.durability != 0)
         {
             durabilitySlider.gameObject.SetActive(true);
-            durabilitySlider.value = item.durability / 20f;
+            durabilitySlider.value = item.durability / 20f; // this 20 should not be hardcoded consider it a Max Durabilty
         }
         else
         {

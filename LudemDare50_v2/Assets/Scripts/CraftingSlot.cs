@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class CraftingSlot : MonoBehaviour
 {
     [SerializeField] CraftingRecipe craftingRecipe;
@@ -11,7 +12,7 @@ public class CraftingSlot : MonoBehaviour
     [SerializeField] Image ingredient1;
     [SerializeField] TextMeshProUGUI ingredient1Label;
     [SerializeField] TextMeshProUGUI ingredient1StackSize;
-    [Header("Ingredient 1 UI")]
+    [Header("Ingredient 2 UI")]
     [SerializeField] Image ingredient2;
     [SerializeField] TextMeshProUGUI ingredient2Label;
     [SerializeField] TextMeshProUGUI ingredient2StackSize;
@@ -20,11 +21,12 @@ public class CraftingSlot : MonoBehaviour
     public TextMeshProUGUI labelText;
     
 
-
     private void Start()
     {
         DrawCraftSlot();
     }
+
+    
 
     private void DrawCraftSlot()
     {
@@ -35,10 +37,21 @@ public class CraftingSlot : MonoBehaviour
         ingredient1Label.text = craftingRecipe.ingredient1.itemData.displayName;
         ingredient1StackSize.text = craftingRecipe.ingredient1.stackSize.ToString();
 
-        ingredient2.sprite = craftingRecipe.ingredient2.itemData.icon;
-        ingredient2Label.text = craftingRecipe.ingredient2.itemData.displayName;
-        ingredient2StackSize.text = craftingRecipe.ingredient2.stackSize.ToString();
+
+        if (craftingRecipe.ingredient2.itemData != null)
+        {
+            ingredient2.sprite = craftingRecipe.ingredient2.itemData.icon;
+            ingredient2Label.text = craftingRecipe.ingredient2.itemData.displayName;
+            ingredient2StackSize.text = craftingRecipe.ingredient2.stackSize.ToString();
+        }
+        else
+        {
+            ingredient2.enabled = false;
+            ingredient2Label.enabled = false;
+            ingredient2StackSize.enabled = false;
+
+        }
     }
 
-    
+   
 }

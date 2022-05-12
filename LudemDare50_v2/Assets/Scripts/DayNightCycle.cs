@@ -9,11 +9,12 @@ public class DayNightCycle : MonoBehaviour
     private bool isDay = true;
     private float yFactor = 52;
     private bool isCyclingToDay = false;
+    [SerializeField] StatBarHandler statHandler;
     [SerializeField] GenerateMobs chickenSpawner;
     [SerializeField] GenerateMobs ratSpawner;
     [SerializeField] private float maxYRotation = 52f;
-    [SerializeField] private float morningShadowMultiplier = 4f;
-    [SerializeField] private float yFactorRotateSpeed = .015f;
+    [SerializeField] private float morningShadowMultiplier = 8f;
+    [SerializeField] private float yFactorRotateSpeed = .0075f;
     [SerializeField] private float toNightSpeed = 0.01f;
     [SerializeField] private float toDaySpeed = 0.01f;
     [SerializeField] private float cycleLength = 60f;
@@ -24,7 +25,7 @@ public class DayNightCycle : MonoBehaviour
 
     private void Update()
     {
-        if (cycleTimer < cycleLength)
+        if (cycleTimer < cycleLength) 
         {
             cycleTimer += Time.deltaTime;
         }
@@ -33,14 +34,14 @@ public class DayNightCycle : MonoBehaviour
             CycleTime();
         }
        
-        if (isDay && yFactor > -maxYRotation)
+        if (isDay && yFactor > -maxYRotation) // rotating sun to night
         {
             
             yFactor -= yFactorRotateSpeed;
             //transform.localRotation = Quaternion.Euler(new Vector3(138, (Time.deltaTime * 360f) - 90f, 0));
             transform.rotation = Quaternion.Euler(138, yFactor , 0);
             
-        } else if (isCyclingToDay && yFactor < maxYRotation)
+        } else if (isCyclingToDay && yFactor < maxYRotation) 
         {
             yFactor += yFactorRotateSpeed * morningShadowMultiplier;
             transform.rotation = Quaternion.Euler(138, yFactor, 0);
@@ -57,7 +58,7 @@ public class DayNightCycle : MonoBehaviour
         {
            
             mainLight.intensity -= toNightSpeed * Time.deltaTime;
-            if (mainLight.intensity <= 0)
+            if (mainLight.intensity <= 0) // on officially night, happens for 1 frame
             {
                 ratSpawner.SpawnMobs();
                 isDay = false;
@@ -70,8 +71,9 @@ public class DayNightCycle : MonoBehaviour
 
             isCyclingToDay = true;
             mainLight.intensity += toDaySpeed * Time.deltaTime;
-            if (mainLight.intensity > 1)
+            if (mainLight.intensity > 1) //on officially day, happens for 1 frame
             {
+                statHandler.IncreaseAllRates();
                 isCyclingToDay = false;
                 chickenSpawner.SpawnMobs();
                 isDay = true;

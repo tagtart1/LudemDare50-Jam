@@ -10,27 +10,39 @@ public class SleepingBag : MonoBehaviour
 
     private bool canInteract;
     Player player;
+
+    private void Start()
+    {
+        player = FindObjectOfType<Player>();
+    }
     private void Update()
     {
-        if (canInteract && player.pressedInteract)
+        if (canInteract)
         {
-            Interact();
+            Debug.Log("canInteract");
+            if (player.PressedInteract)
+            {
+                Debug.Log("pressingINteract");
+                Interact();
+            }
         }
+            
+        
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Player>(out player))
+        if (other.GetComponent<Player>())
         {
-            
+            Debug.Log("in range");
             canInteract = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<Player>(out player))
+        if (other.GetComponent<Player>())
         {
 
             canInteract = false;
@@ -39,21 +51,28 @@ public class SleepingBag : MonoBehaviour
 
     private void Interact()
     {
-        if (!player.isSleeping)
+        if (!player.IsSleeping)
         {
-            player.canMove = false;
+            player.CanMove = false;
            player.EnableChildrenObjects(false);
-            player.isSleeping = true;
+            player.IsSleeping = true;
             sleepingbagAwake.SetActive(false);
             sleepingbagSleep.SetActive(true);
+            BoxCollider collider = GetComponent<BoxCollider>();
+            player.GetCharacterPlane().localEulerAngles = Vector3.zero;
+            collider.size = new Vector3(collider.size.x * 1.25f, collider.size.y, collider.size.z * 1.25f);
+
         }
         else
         {
-            player.canMove = true;
+            player.GetCharacterPlane().localEulerAngles = Vector3.zero;
+            player.CanMove = true;
             player.EnableChildrenObjects(true);
-            player.isSleeping = false;
+            player.IsSleeping = false;
             sleepingbagAwake.SetActive(true);
             sleepingbagSleep.SetActive(false);
+            BoxCollider collider = GetComponent<BoxCollider>();
+            collider.size = new Vector3(collider.size.x * .8f, collider.size.y, collider.size.z * .8f);
         }
     }
 

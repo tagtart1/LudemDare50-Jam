@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 1
   displayName: Sword
-  icon: {fileID: 21300000, guid: b3003dd9a22dd444cb112be59a618303, type: 3}
+  icon: {fileID: 21300000, guid: 00d53f7d4008ad741a065010dfb53a82, type: 3}
   pickupPrefab: {fileID: 4384417609524353661, guid: cad7c9d9a3369ee4eba793f7cee62fa5,
     type: 3}

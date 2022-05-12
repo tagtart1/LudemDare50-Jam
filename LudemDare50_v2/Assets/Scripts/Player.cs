@@ -1,35 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 
 
 public class Player : MonoBehaviour
 {
-    Vector3 moveDirection;
+    [SerializeField] public Inventory inventory;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private Animator anim;
+    [SerializeField] private TextMeshProUGUI aliveTimerUI;
+    [SerializeField] private Transform characterPlane;
+    [SerializeField] private Transform hand1;
+    [SerializeField] private Transform hand2;
+    [SerializeField] private float movementSpeed;
 
     private CharacterMotor cm;
-    [SerializeField] private float movementSpeed;
-    [SerializeField] Camera mainCamera;
-    [SerializeField] public GameObject playerPlane;
-    [SerializeField] Transform hand1;
-    [SerializeField] Transform hand2;
-    [SerializeField] public Inventory inventory;
-
     private StatBarHandler statBar;
-    public Vector2 moveInput;
-    public bool pressedInteract;
-    public bool pressedDropItem;
-    public bool pressedLeftClick;
-    public bool isSleeping = false;
-    public bool canMove = true;
     private CharacterInputs characterInputs;
+
     private Transform[] childrenObjects;
-    private bool isFacingRight;
-    private bool isFlipping;
     private GameObject oldEquippedHand1Item;
     private GameObject oldEquippedHand2Item;
+
+    private Vector3 moveDirection;
+    private Vector3 inHandScale;
     private Vector2 mousePosition;
+    private Vector2 moveInput;
+
+    private float timeAlive;
+    private bool pressedPause;
+    private bool canMove = true;
+    private bool isDead;
+    private bool isPaused;
+    private bool isFlipping;
+    private bool isFacingRight;
+    private bool isSleeping = false;
+    private bool pressedInteract;
+    private bool pressedDropItem;
+    private bool pressedLeftClick;
+  
+    public bool CanMove { set => canMove = value; }
+    public bool IsSleeping { get => isSleeping; set => isSleeping = value; }
+    public bool PressedInteract { get => pressedInteract; }
+    public bool PressedDropItem { get => pressedDropItem; }
+    public bool PressedLeftClick { get => pressedLeftClick; }
+    public bool PressedPause { get => pressedPause; }
+
 
     private void Awake()
     {
@@ -60,19 +78,26 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (characterInputs.Player.Interact.triggered) pressedInteract = true;
+        timeAlive += Time.deltaTime;
+        
+        if (characterInputs.Player.Interact.triggered && !isPaused) pressedInteract = true;
         else pressedInteract = false;
 
-        if (characterInputs.Player.Inventory.triggered) inventory.ToggleInventoryMenu();
+       
 
-        if (characterInputs.Player.MouseClick.triggered) pressedLeftClick = true;
+        if (characterInputs.Player.Inventory.triggered && !isPaused) inventory.ToggleInventoryMenu();
+
+        if (characterInputs.Player.MouseClick.triggered && !isPaused) pressedLeftClick = true;
         else pressedLeftClick = false;
+
+        if (characterInputs.Player.Pause.triggered) pressedPause = true;
+        else pressedPause = false;
 
         mousePosition = characterInputs.Player.Mouse.ReadValue<Vector2>();
        
         if (isSleeping)
         {
-            statBar.IncrementStatBar(.015f, Stat.sanity);
+            statBar.IncrementStatBar(.1f, Stat.sanity);
         }
         if (characterInputs.Player.DropItem.triggered)
         {
@@ -80,34 +105,42 @@ public class Player : MonoBehaviour
         }
         else pressedDropItem = false;
 
-       
 
+        if (moveInput != Vector2.zero && !isPaused)
+        {
+            
+            anim.SetFloat("Speed", 1);
+            
+        }
+        else anim.SetFloat("Speed", 0);
 
 
         if (moveInput.x < 0 && isFacingRight && !isFlipping)
         {
-            StopAllCoroutines();
+            
             StartCoroutine(Flip());
         }
         else if (moveInput.x > 0 && !isFacingRight && !isFlipping)
         {
-            StopAllCoroutines();
+            
             StartCoroutine(Flip());
         }
+
+
+        aliveTimerUI.text = GetTimeAlive(); // updatas onscreen timer
     }
 
     private void FixedUpdate()
     {
-
         cm.SetMoveVelocity(SetMovementFromInput());
-
     }
 
+   
 
 
     public Vector3 SetMovementFromInput()
     {
-        if (!canMove) return Vector3.zero;
+        if (!canMove || isPaused) return Vector3.zero;
         moveDirection = mainCamera.transform.forward * moveInput.y;
         moveDirection = moveDirection + mainCamera.transform.right * moveInput.x;
         moveDirection.Normalize();
@@ -120,9 +153,11 @@ public class Player : MonoBehaviour
 
 
 
-    private IEnumerator Flip()
+    private IEnumerator Flip() 
     {
         float timeElapsed = 0;
+        Vector3 handScale = Vector3.one;
+     
         Vector3 targetScale = transform.localScale;
         targetScale.x *= -1;
         while (timeElapsed < .4f)
@@ -130,39 +165,51 @@ public class Player : MonoBehaviour
             isFlipping = true;
             timeElapsed += Time.deltaTime;
             transform.localScale = Vector3.Lerp(transform.localScale, targetScale, timeElapsed / 1.6f);
+            if (oldEquippedHand1Item != null)
+            oldEquippedHand1Item.transform.localScale = handScale;
+            if (oldEquippedHand2Item != null)
+            oldEquippedHand2Item.transform.localScale = handScale;
             yield return null;
         }
         isFlipping = false;
         transform.localScale = targetScale;
         isFacingRight = !isFacingRight;
-         
+       
     }
 
     public void EquipItemToHand(InventoryItem inventoryItem, bool lhs)
     {
         
         GameObject inHand = Instantiate(inventoryItem.itemData.pickupPrefab);
-        if (inHand.GetComponent<Tool>() != null)
+        inHandScale = inHand.transform.localScale;
+        if (isFacingRight) // makes the sprite face the correct direction on equipping
+        {
+            inHandScale.x *= -1f;
+            inHand.transform.localScale = inHandScale;
+        }
+
+        if (inHand.GetComponent<Tool>() != null) //items are only a tool, temperature control, or consumable so we check
         {
             inHand.GetComponent<Tool>().enabled = true;
             inHand.GetComponent<Tool>().SetToolStats(inventoryItem.damage);
             inHand.GetComponent<ResourcePickup>().id = inventoryItem.id;
         }
-        else if (inHand.GetComponent<Food>() != null)
+        else if (inHand.GetComponent<TemperatureControl>() != null) 
         {
-            inHand.GetComponent<Food>().enabled = true;
+            inHand.GetComponent<TemperatureControl>().enabled = true;
+            inHand.GetComponent<ResourcePickup>().id = inventoryItem.id;
         }
-        else if (inHand.GetComponent<TemperatureControl>() != null)
+        else if (inHand.GetComponent<Consumable>() != null)
         {
-            inHand.GetComponent<Food>().enabled = true;
+            inHand.GetComponent<Consumable>().enabled = true;
         }
         inHand.GetComponent<Rigidbody>().useGravity = false;
         inHand.GetComponent<Rigidbody>().isKinematic = true;
         inHand.GetComponent<BoxCollider>().enabled = false;
         inHand.transform.SetParent(lhs ? hand1 : hand2);
         inHand.transform.localPosition = Vector3.zero;
-       // inHand.transform.localScale = Vector3.one / 10;
-        if (lhs)
+    
+        if (lhs) 
         {
             
             Destroy(oldEquippedHand1Item);
@@ -219,4 +266,42 @@ public void CreateDroppedPickup(InventoryItem inventoryItem)
         return mousePosition;
     }
     
+
+    public void Attack() //animation trigger
+    {
+        anim.SetTrigger("Attack");
+    }
+
+    public bool IsDead()
+    {
+        return isDead;
+    }
+  
+
+    public void SetPlayerDead(bool value)
+    {
+        isDead = value;
+    }
+
+    public void DisableInputs()
+    {
+        isPaused = true;
+    }
+
+    public void EnableInputs()
+    {
+        isPaused = false;
+    }
+
+    public string GetTimeAlive()
+    {
+        string time = Mathf.Floor(timeAlive / 60).ToString("00") + ":" + (timeAlive % 60).ToString("00");
+        return time;
+    }
+
+    public Transform GetCharacterPlane()
+    {
+        return characterPlane;
+    }
+
 }

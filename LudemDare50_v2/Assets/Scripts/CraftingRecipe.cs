@@ -10,5 +10,7 @@ public class CraftingRecipe : ScriptableObject
     public int yield;
     public InventoryItem ingredient1;
     public InventoryItem ingredient2;
+    public float durability;
+    public float damage;
 }
 

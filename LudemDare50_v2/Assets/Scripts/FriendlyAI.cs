@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class FriendlyAI : MonoBehaviour
 {
     private NavMeshAgent agent;
-    private Animator animator;
+    [SerializeField] private Animator animator;
     [SerializeField] private float maxTimeAtPoint;
     float lastXPosition;
     public float xVelocity;
@@ -14,6 +14,7 @@ public class FriendlyAI : MonoBehaviour
     private bool isFlipping;
     private bool isFacingRight;
     public LayerMask whatIsGround;
+
  
 
     //Patrolling
@@ -26,7 +27,7 @@ public class FriendlyAI : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        
         agent = GetComponent<NavMeshAgent>();
        
     }
@@ -49,7 +50,7 @@ public class FriendlyAI : MonoBehaviour
 
         if (walkPointSet)
         {
-          
+            animator.SetFloat("Speed", 1f);
             agent.SetDestination(walkPoint);
         }
 
@@ -60,7 +61,7 @@ public class FriendlyAI : MonoBehaviour
             
             if (atPointTimer < maxTimeAtPoint)
             {
-                
+                animator.SetFloat("Speed", 0f);
                 atPointTimer += Time.deltaTime;
             }
             else

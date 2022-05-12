@@ -14,7 +14,7 @@ public class Tool : MonoBehaviour
     private Health healthToAttack;
     private Player player;
     public bool isInRangeOfObject;
-    public float maxDurability;
+   
    
     private void Start()
     {
@@ -24,7 +24,7 @@ public class Tool : MonoBehaviour
 
     private void Update()
     {
-        if (player.pressedLeftClick && canUseTool && !player.inventory.IsMenuActive())
+        if (player.PressedLeftClick && canUseTool && !player.inventory.IsMenuActive())
         {
             UseTool();
         }
@@ -41,9 +41,12 @@ public class Tool : MonoBehaviour
         canUseTool = false;
         if (healthToAttack != null)
         {
-            HandleDurability();
-            healthToAttack.TakeDamage(damage, this);
-            
+           
+            if (healthToAttack.TakeDamage(damage, this))
+            {
+                HandleDurability();
+                player.Attack();
+            }
         }
        
         
@@ -65,10 +68,10 @@ public class Tool : MonoBehaviour
         healthToAttack = null;
     }
 
-    private void HandleDurability()
+    private void HandleDurability() //checks the durability to be above 1 and also removes 1 durability for each use 
     {
         //needs to remove from inventory and clears slot
-        player.inventory.HandleToolItem(GetComponent<ResourcePickup>().id);
+        player.inventory.HandleToolItem(GetComponent<ResourcePickup>().id, 1f);
         
     }
 }

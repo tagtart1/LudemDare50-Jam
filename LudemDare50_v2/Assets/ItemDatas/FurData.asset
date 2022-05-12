@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   displayName: Fur
-  icon: {fileID: 21300000, guid: 916f518aa9aa6184e8306b57107c75b3, type: 3}
+  icon: {fileID: 21300000, guid: 360fe1178d0c9634197afe0025e62ee4, type: 3}
   pickupPrefab: {fileID: 1992938837395047423, guid: 5f0ca45cb8d12ba4382860cf2823a77b,
     type: 3}

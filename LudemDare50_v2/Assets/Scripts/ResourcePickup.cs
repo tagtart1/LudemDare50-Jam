@@ -17,6 +17,7 @@ public class ResourcePickup : MonoBehaviour, ICollectible
     public bool isTool;
     public float damage;
     public float durability;
+    [SerializeField] AudioClip pickupSFX;
 
     public float id;
 
@@ -27,6 +28,7 @@ public class ResourcePickup : MonoBehaviour, ICollectible
 
     public void Collect()
     {
+        SoundManager.PlayEffectSound_Static(pickupSFX);
         if (!isTool)
             OnResourceCollected?.Invoke(resourceData, itemCount);
         else
